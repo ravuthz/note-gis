@@ -105,3 +105,30 @@ FROM test_postgis WHERE ST_SRID(geometry) = 32648;
 +-------+-------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 ```
+
+# Find Point in Polygons - ST_DWithin, ST_Within, ST_Contains and ST_Intersects
+```sql
+SELECT
+    ST_AsText(point) AS "PointText",
+    ST_AsText(geometry) AS "GeometryText",
+
+    ST_SRID(point) AS "PointSRID",
+    ST_SRID(geometry) AS "GeometrySRID",
+
+    ST_DWithin(geometry::geography,point, 100),
+    ST_DWithin(point, geometry::geography,100),
+
+    ST_Intersects(geometry, point),
+    ST_Intersects(point, geometry),
+
+    ST_Within(geometry,point),
+    ST_Within(point, geometry),
+
+    ST_Contains(geometry, point),
+    ST_Contains(point, geometry)
+FROM (
+    SELECT
+    (SELECT geometry FROM test_postgis WHERE name = 'TestMultiPolygon1') AS "geometry",
+    (SELECT geometry FROM test_postgis WHERE name = 'TestPoint1') AS "point"
+) AS location;
+```
