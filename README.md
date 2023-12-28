@@ -12,6 +12,16 @@ INSERT INTO test_postgis VALUES
   ('PolygonWithHole', 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0),(1 1, 1 2, 2 2, 2 1, 1 1))'),
   ('Collection', 'GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))');
 
+INSERT INTO test_postgis VALUES
+  ('Point', ST_GeomFromText('POINT(0 0)')),
+  ('MultiPoint', ST_GeomFromText('MULTIPOINT(0 0, 0 1)')),
+  ('Linestring', ST_GeomFromText('LINESTRING(0 0, 1 1, 2 1, 2 2)')),
+  ('MultiLinestring', ST_GeomFromText('MULTILINESTRING((0 0, 1 1, 2 1, 2 2),(3 3, 4 4, 5 5))')),
+  ('Polygon', ST_GeomFromText('POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))')),
+  ('MultiPolygon', ST_GeomFromText('MULTIPOLYGON(((0 0, 1 0, 1 1, 0 1, 0 0)),((2 2, 3 2, 3 3, 2 3, 2 2)))')),
+  ('PolygonWithHole', 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0),(1 1, 1 2, 2 2, 2 1, 1 1))'),
+  ('Collection', 'GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))');
+
 ```
 
 ```sql
