@@ -1,5 +1,4 @@
-# Note
-# PostGis PSQL
+# PostGIS PSQL
 
 ```sql
 
@@ -56,8 +55,8 @@ SELECT name, ST_SRID(geometry), ST_AsText(geometry) FROM test_postgis;
 
 ```
 
+## Convert between 4326 and 32648 using ST_Transform
 
-# Convert between 4326 and 32648 using ST_Transform
 ```sql
 
 ## Add samples data with SRID
@@ -116,7 +115,8 @@ FROM test_postgis WHERE ST_SRID(geometry) = 32648;
 
 ```
 
-# Find Point in Polygons - ST_DWithin, ST_Within, ST_Contains and ST_Intersects
+## Find Point in Polygons - ST_DWithin, ST_Within, ST_Contains and ST_Intersects
+
 ```sql
 SELECT
     ST_AsText(point) AS "PointText",
@@ -142,3 +142,41 @@ FROM (
     (SELECT geometry FROM test_postgis WHERE name = 'TestPoint1') AS "point"
 ) AS location;
 ```
+
+
+
+
+# ArcGIS PSQL
+
+```sql
+
+CREATE TABLE test_arcgis (name varchar, shape sde.st_geometry);
+
+INSERT INTO test_arcgis VALUES (
+ 'Point',
+ sde.st_point ('point (10.01 50.76)', 4326)
+);
+
+SELECT name, ST_AsText(shape) FROM test_arcgis;
+
+```
+
+## Casting
+
+```sql
+
+-- Convert to SRID = 32648
+SELECT ST_SetSRID(geometry, 32648);
+
+-- Convert to 3D or HasZ = true
+SELECT ST_Force3D(geometry);
+
+-- Print Text for hummand readable
+SELECT ST_AsText(geometry);
+
+```
+
+#### Reference Docs
+https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/st-astext.htm
+
+
