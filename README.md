@@ -1,6 +1,20 @@
 # PostGIS PSQL
 
 ```sql
+-- Check postgis extension is exists
+SELECT * FROM pg_available_extensions WHERE name = 'postgis';
+
+-- Install postgis extension
+CREATE EXTENSION postgis;
+
+-- Check the postgis version
+SELECT PostGIS_Full_Version();
+
+```
+
+
+## Testing Postgis
+```sql
 
 CREATE TABLE IF NOT EXISTS test_postgis (name varchar, geometry geometry);
 
@@ -177,6 +191,9 @@ SELECT ST_AsText(geometry);
 ```
 
 #### Reference Docs
+
+https://postgis.net/documentation/getting_started/
+
 https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/st-astext.htm
 
 
