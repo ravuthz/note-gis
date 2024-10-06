@@ -1,5 +1,17 @@
 # PostGIS PSQL
 
+
+Install posthis package first
+```bash
+
+-- On ubuntu server
+sudo apt install postgis
+
+-- On mac using homebrew
+brew install postgis
+
+```
+
 ```sql
 -- Check postgis extension is exists
 SELECT * FROM pg_available_extensions WHERE name = 'postgis';
@@ -193,6 +205,8 @@ SELECT ST_AsText(geometry);
 #### Reference Docs
 
 https://postgis.net/documentation/getting_started/
+
+https://postgis.net/documentation/getting_started/install_macos/
 
 https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/st-astext.htm
 
