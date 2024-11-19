@@ -202,6 +202,31 @@ SELECT ST_AsText(geometry);
 
 ```
 
+### LatLng (4326) to UTM (32648)
+
+```sql
+SELECT
+        ST_AsText(shape) shape_text,
+        ST_AsText(geometry) geometry_text,
+        ST_X(ST_Centroid(shape)) AS utm_easting_x,
+        ST_Y(ST_Centroid(shape)) AS utm_northing_y,
+        ST_SRID(shape) shape_srid,
+        ST_SRID(geometry) geometry_srid,
+        FLOOR((ST_X(ST_Centroid(shape)) + 180) / 6) + 1 AS utm_zone
+FROM (
+    SELECT
+        ST_GeogFromText('POINT(104.8717520846559 11.629526891411311)') AS geometry,
+        ST_Transform(ST_GeogFromText('POINT(104.8717520846559 11.629526891411311)')::geometry, 32648) as shape
+) latlng;
+
++-------------------------------------------+-------------------------------------------+-----------------+------------------+----------+-------------+--------+
+|shape_text                                 |geometry_text                              |utm_easting_x    |utm_northing_y    |shape_srid|geometry_srid|utm_zone|
++-------------------------------------------+-------------------------------------------+-----------------+------------------+----------+-------------+--------+
+|POINT(486020.2633959938 1285591.1348916255)|POINT(104.8717520846559 11.629526891411311)|486020.2633959938|1285591.1348916255|32648     |4326         |81034   |
++-------------------------------------------+-------------------------------------------+-----------------+------------------+----------+-------------+--------+
+
+```
+
 #### Reference Docs
 
 https://postgis.net/documentation/getting_started/
