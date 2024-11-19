@@ -206,8 +206,8 @@ SELECT ST_AsText(geometry);
 
 ```sql
 SELECT
-        ST_AsText(shape) shape_text,
-        ST_AsText(geometry) geometry_text,
+        ST_AsText(shape) utm_text,
+        ST_AsText(geometry) latlng_text,
         ST_X(ST_Centroid(shape)) AS utm_easting_x,
         ST_Y(ST_Centroid(shape)) AS utm_northing_y,
         ST_SRID(shape) shape_srid,
@@ -220,13 +220,36 @@ FROM (
 ) latlng;
 
 +-------------------------------------------+-------------------------------------------+-----------------+------------------+----------+-------------+--------+
-|shape_text                                 |geometry_text                              |utm_easting_x    |utm_northing_y    |shape_srid|geometry_srid|utm_zone|
+|utm_text                                   |latlng_text                                |utm_easting_x    |utm_northing_y    |shape_srid|geometry_srid|utm_zone|
 +-------------------------------------------+-------------------------------------------+-----------------+------------------+----------+-------------+--------+
 |POINT(486020.2633959938 1285591.1348916255)|POINT(104.8717520846559 11.629526891411311)|486020.2633959938|1285591.1348916255|32648     |4326         |81034   |
 +-------------------------------------------+-------------------------------------------+-----------------+------------------+----------+-------------+--------+
-
 ```
 
+### UTM (32648) to LatLng (4326)
+
+```sql
+SELECT
+        ST_AsText(geometry) utm_text,
+        ST_AsText(shape) latlng_text,
+        ST_Y(shape) AS latitude_x,
+        ST_X(shape) AS longtitude_y,
+        ST_SRID(shape) shape_srid,
+        ST_SRID(geometry) geometry_srid
+FROM (
+    SELECT
+        ST_SetSRID(ST_MakePoint(486020.2633959938, 1285591.1348916255), 32648) AS geometry,
+        ST_Transform(ST_SetSRID(ST_MakePoint(486020.2633959938, 1285591.1348916255), 32648), 4326) as shape
+) latlng;
+
++-------------------------------------------+-------------------------------------------+------------------+-----------------+----------+-------------+
+|utm_text                                   |latlng_text                                |latitude_x        |longtitude_y     |shape_srid|geometry_srid|
++-------------------------------------------+-------------------------------------------+------------------+-----------------+----------+-------------+
+|POINT(486020.2633959938 1285591.1348916255)|POINT(104.8717520846559 11.629526891411311)|11.629526891411311|104.8717520846559|4326      |32648        |
++-------------------------------------------+-------------------------------------------+------------------+-----------------+----------+-------------+
+
+```
+ 
 #### Reference Docs
 
 https://postgis.net/documentation/getting_started/
