@@ -273,5 +273,7 @@ https://postgis.net/documentation/getting_started/install_macos/
 https://desktop.arcgis.com/en/arcmap/latest/manage-data/using-sql-with-gdbs/st-astext.htm
 
 #### Laravel packages
+
 https://github.com/clickbar/laravel-magellan
+
 https://laravel-news.com/laravel-magellan
